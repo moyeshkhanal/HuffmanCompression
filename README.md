@@ -12,3 +12,9 @@ Decompressor
 - Read new file, one bit at a time
 - Use header table to convert these bits into characters
 - Put characters in new new file
+
+# Clarifications
+WriteBitFile.py - I realized that Reed wrote this file, but if you know what these things mean, feel free to comment
+- Add comments to function writeUByte
+- Add comments to function writeUShort
+- Add comments to function writeUInt
