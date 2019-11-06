@@ -27,7 +27,7 @@ class TreeNode:
 def main():
     freq = {}
     # freq table constructor
-    with open("testFile.txt", "r") as line:
+    with open("testFile2.txt", "r") as line:
         for word in line:
             for c in word:
                 # starts the freq count at 1, so we can add things later
@@ -70,6 +70,8 @@ def makeTree(freqDic):
             index = 0
             while minQueue[index].frequency < parent.frequency:
                 index += 1
+                if index == len(minQueue):
+                    break
             minQueue.insert(index, parent)
 
     return parent
