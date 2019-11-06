@@ -20,6 +20,9 @@ class WriteBitFile:
         """
 
         :param filename: name of file we are creating/writing to
+        :var self.outfile: var for file we're writing to
+        :var self.bitValue: bits that will be written once a byte
+        :var self.numberOfBits: total number of bits in the outfile
         """
 
         self.outfile = open(filename, 'wb')
@@ -39,6 +42,7 @@ class WriteBitFile:
         assert bit == 0 or bit == 1
         self.bitValue = (self.bitValue << 1) + bit
         self.numberOfBits += 1
+        # so only a byte is written at a time
         if self.numberOfBits == 8:
             value = self.bitValue
             self.bitValue = 0
@@ -82,7 +86,7 @@ class WriteBitFile:
 
         """
 
-        :param value: unsighe short to write to the file
+        :param value: unsigned short to write to the file
         :return: None
         """
 

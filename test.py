@@ -10,9 +10,11 @@ def makeTree(freqDic):
 
 def main():
     freq = {}
+    # freq table constructor
     with open("testFile.txt", "r") as line:
         for word in line:
             for c in word:
+                # starts the freq count at 0
                 if c not in freq:
                     freq[c] = 0
                 else:
