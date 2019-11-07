@@ -1,4 +1,5 @@
 from __future__ import annotations
+from ReadBitFile import *
 class TreeNode:
     def __init__(self, frequency, left : TreeNode = None, right: TreeNode = None):
         self.frequency = frequency
