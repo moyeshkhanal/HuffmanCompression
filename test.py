@@ -21,7 +21,6 @@ class TreeNode:
         string = str(self.char) + " " + str(self.frequency)
         return string
 
-
 # ---------------------------------------------------------------------------------------
 
 def main():
@@ -36,9 +35,11 @@ def main():
                 else:
                     freq[c] = freq[c] + 1
 
+    # Prints the value of the root node
     print(makeTree(freq))
 
 # ---------------------------------------------------------------------------------------
+
 def makeTree(freqDic):
 
     minQueue = []
@@ -60,6 +61,8 @@ def makeTree(freqDic):
         parent = TreeNode("Value", newMin, minQueue[1], minQueue[0])
         minQueue.pop(0)
         minQueue.pop(0)
+        # if the length of the queue is 1 we know what it does next,
+        # so we do it here instead of doing another loop, then exit
         if len(minQueue) == 1:
             newMin = minQueue[0].frequency + parent.frequency
             if parent.frequency > minQueue[0].frequency:
