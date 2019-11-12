@@ -5,9 +5,10 @@
 # ---------------------------------------------------------------------------------------
 
 from __future__ import annotations
+from ReadBitFile import *
+
 
 # ---------------------------------------------------------------------------------------
-
 class TreeNode:
 
 
@@ -23,10 +24,26 @@ class TreeNode:
 
 # ---------------------------------------------------------------------------------------
 
-def main():
+def getBinaryHelper(root, code, codes_dic):
+    if root == None :
+        return
+    if root.char != "Value":
+        codes_dic[code] = root.char
+        return
+    getBinaryHelper(root.left, code + "0", codes_dic)
+    getBinaryHelper(root.right, code + "1", codes_dic)
+
+def getBinary(parent):
+    codes_dic = {}
+    root = (parent)
+    code = ""
+    getBinaryHelper(root, code, codes_dic)
+    x = 3
+
+def makeFrequency(filename):
     freq = {}
-    # freq table constructor
-    with open("testFile2.txt", "r") as line:
+
+    with open("testFile.txt", "r") as line:
         for word in line:
             for c in word:
                 # starts the freq count at 1, so we can add things later
@@ -34,9 +51,22 @@ def main():
                     freq[c] = 1
                 else:
                     freq[c] = freq[c] + 1
+    return freq
+def main():
+    freq = makeFrequency("testFile.txt")
+    # freq table constructor
+    # with open("testFile.txt", "r") as line:
+    #     for word in line:
+    #         for c in word:
+    #             # starts the freq count at 1, so we can add things later
+    #             if c not in freq:
+    #                 freq[c] = 1
+    #             else:
+    #                 freq[c] = freq[c] + 1
 
     # Prints the value of the root node
-    print(makeTree(freq))
+    print(freq)
+    getBinary(makeTree(freq))
 
 # ---------------------------------------------------------------------------------------
 
@@ -58,7 +88,7 @@ def makeTree(freqDic):
     # creates tree, returns parent
     while len(minQueue) > 1:
         newMin = minQueue[0].frequency + minQueue[1].frequency
-        parent = TreeNode("Value", newMin, minQueue[1], minQueue[0])
+        parent = TreeNode("Value", newMin, minQueue[0], minQueue[1])
         minQueue.pop(0)
         minQueue.pop(0)
         # if the length of the queue is 1 we know what it does next,
@@ -69,6 +99,7 @@ def makeTree(freqDic):
                 parent = TreeNode("Value", newMin, minQueue[0], parent)
             else:
                 parent = TreeNode("Value", newMin, parent, minQueue[0])
+
         else:
             index = 0
             while minQueue[index].frequency < parent.frequency:
@@ -80,7 +111,11 @@ def makeTree(freqDic):
     return parent
 
 # ---------------------------------------------------------------------------------------
-
+def printTree(parent):
+    if parent:
+        printTree(parent.left)
+        print(parent)
+        printTree(parent.right)
 
 if __name__ == '__main__':
     main()
