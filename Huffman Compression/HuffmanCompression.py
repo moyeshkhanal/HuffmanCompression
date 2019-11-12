@@ -1,4 +1,6 @@
 from TreeNode import *
+import pickle
+#https://wiki.python.org/moin/UsingPickle
 
 class HuffmanCompression:
 
@@ -68,3 +70,11 @@ class HuffmanCompression:
                         break
                 minQueue.insert(index, parent)
         return parent
+
+    def compress(self):
+        codedChr = self.codesDictionary
+        pickle.dump(codedChr, open("pickleTest.txt", "wb"))
+    def deCompress(self):
+
+        codedChr = pickle.load(open("pickleTest.txt", "rb"))
+        return codedChr
