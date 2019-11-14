@@ -12,6 +12,8 @@ class HuffmanCompression:
         self.freq = {}
         self.charToCode = {}
         self.bits = 0
+        self.outfile = ""
+        self.makeFrequency()
 
     def __getBinaryHelper(self, root, code):
         if root == None:
@@ -38,6 +40,7 @@ class HuffmanCompression:
                         self.freq[c] = 1
                     else:
                         self.freq[c] = self.freq[c] + 1
+        self.makeTree()
     def makeTree(self):
         freqDic = self.freq
         minQueue = []
@@ -75,10 +78,12 @@ class HuffmanCompression:
                     if index == len(minQueue):
                         break
                 minQueue.insert(index, parent)
-        return parent
+        self.getBinary(parent)
+        # return parent
 
     def compress(self):
-        w = WriteBitFile("testFile2.txt.m")
+        self.outFile = self.filename + ".m"
+        w = WriteBitFile(self.outFile)
         w.writeUInt(self.bits)
         codedChr = self.codesDictionary
         pickle.dump(codedChr, w.outfile)
@@ -96,16 +101,19 @@ class HuffmanCompression:
         #uINT file byte size then Pickle then the compressed file
 
     def deCompress(self):
-        r = ReadBitFile("testFile2.txt.m")
-        w = WriteBitFile("testFile2_decompressed.txt")
+        r = ReadBitFile(self.outFile)
+        w = WriteBitFile(self.filename + "_decompressed.txt")
         byteSize = r.readUInt()
+        print(byteSize)
         codedChr = pickle.load(r.infile)
         print(codedChr)
         bitStr = ""
-        for i in range(byteSize):
+        i = 0
+        while i != byteSize:
             bit = r.readBit()
             bitStr += str(bit)
             if bitStr in codedChr:
+                i += 1
                 charToWrite = codedChr[bitStr]
                 w.writeUByte(ord(charToWrite))
                 bitStr = ""
