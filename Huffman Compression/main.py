@@ -5,7 +5,7 @@ def main():
     huffman.makeFrequency()
     huffman.getBinary(huffman.makeTree())
     huffman.compress()
-    print(huffman.deCompress())
+    huffman.deCompress()
 
     x = 3
 
