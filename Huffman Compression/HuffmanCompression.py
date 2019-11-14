@@ -97,7 +97,17 @@ class HuffmanCompression:
 
     def deCompress(self):
         r = ReadBitFile("testFile2.txt.m")
+        w = WriteBitFile("testFile2_decompressed.txt")
         byteSize = r.readUInt()
         codedChr = pickle.load(r.infile)
         print(codedChr)
-
+        bitStr = ""
+        for i in range(byteSize):
+            bit = r.readBit()
+            bitStr += str(bit)
+            if bitStr in codedChr:
+                charToWrite = codedChr[bitStr]
+                w.writeUByte(ord(charToWrite))
+                bitStr = ""
+        w.close()
+        r.close()

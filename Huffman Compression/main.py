@@ -1,7 +1,7 @@
 from HuffmanCompression import *
 
 def main():
-    huffman = HuffmanCompression("testFile.txt")
+    huffman = HuffmanCompression("pickleTest.txt")
     huffman.makeFrequency()
     huffman.getBinary(huffman.makeTree())
     huffman.compress()
