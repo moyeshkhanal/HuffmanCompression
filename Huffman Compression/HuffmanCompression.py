@@ -1,5 +1,7 @@
 from TreeNode import *
 import pickle
+from WriteBitFile import *
+from ReadBitFile import *
 #https://wiki.python.org/moin/UsingPickle
 
 class HuffmanCompression:
@@ -8,12 +10,15 @@ class HuffmanCompression:
         self.codesDictionary = {}
         self.filename = filename
         self.freq = {}
+        self.charToCode = {}
+        self.bits = 0
 
     def __getBinaryHelper(self, root, code):
         if root == None:
             return
         if root.char != "Value":
             self.codesDictionary[code] = root.char
+            self.charToCode[root.char] = code
             return
         self.__getBinaryHelper(root.left, code + "0")
         self.__getBinaryHelper(root.right, code + "1")
@@ -27,6 +32,7 @@ class HuffmanCompression:
         with open(self.filename, "r") as line:
             for word in line:
                 for c in word:
+                    self.bits += 1
                     # starts the freq count at 1, so we can add things later
                     if c not in self.freq:
                         self.freq[c] = 1
@@ -72,9 +78,26 @@ class HuffmanCompression:
         return parent
 
     def compress(self):
+        w = WriteBitFile("testFile2.txt.m")
+        w.writeUInt(self.bits)
         codedChr = self.codesDictionary
-        pickle.dump(codedChr, open("pickleTest.txt", "wb"))
-    def deCompress(self):
+        pickle.dump(codedChr, w.outfile)
+        # curBit = ""
+        with open(self.filename, "r") as line:
+            for word in line:
+                for char in word:
+                    if char in self.charToCode:
+                        curBit = self.charToCode[char]
+                        for b in curBit:
+                            w.writeBit(int(b))
+        # w.outfile
+        # self.filename.close()
+        w.close()
+        #uINT file byte size then Pickle then the compressed file
 
-        codedChr = pickle.load(open("pickleTest.txt", "rb"))
-        return codedChr
+    def deCompress(self):
+        r = ReadBitFile("testFile2.txt.m")
+        byteSize = r.readUInt()
+        codedChr = pickle.load(r.infile)
+        print(codedChr)
+
