@@ -1,1 +1,5 @@
+Moyesh Khanal and Gage Farmer
+
+We used this link to use the Pickle module.
+We did come to you for help multiple times
 https://wiki.python.org/moin/UsingPickle
